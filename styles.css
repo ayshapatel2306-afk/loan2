@@ -723,9 +723,215 @@ footer {
 }
 
 /* RESPONSIVE */
-@media(max-width: 900px) {
-    .hero-text h1 { font-size: 46px; }
-    nav { display: none; }
-    .contact-form .input-row { flex-direction: column; }
-    .about, .contact-container { padding: 30px; }
+
+/* Hamburger Toggle Button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 1100;
 }
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--text-main);
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Hamburger to X Animation */
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+    background-color: var(--primary);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    background-color: var(--primary);
+}
+
+@media (max-width: 900px) {
+    header {
+        padding: 15px 6%;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        max-width: 320px;
+        height: 100vh;
+        background: rgba(2, 6, 23, 0.98);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--glass-border);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 0;
+        transition: right 0.4s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    nav a {
+        margin: 15px 0;
+        font-size: 20px;
+        font-weight: 600;
+        margin-left: 0; /* Clear left margin */
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    nav a::after {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 120px 6% 60px;
+        flex-direction: column;
+        text-align: center;
+        gap: 50px;
+    }
+
+    .hero-text {
+        width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 44px;
+        margin-bottom: 20px;
+    }
+
+    .hero-text p {
+        margin: 0 auto 30px;
+        font-size: 16px;
+    }
+
+    .loan-card {
+        width: 100%;
+        max-width: 500px;
+        padding: 30px;
+    }
+
+    /* Reusable Sections */
+    section {
+        padding: 100px 6% 60px;
+    }
+
+    .section-title h2 {
+        font-size: 36px;
+    }
+
+    .section-title p {
+        font-size: 16px;
+    }
+
+    /* About Section */
+    .about {
+        flex-direction: column;
+        padding: 30px;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .about img {
+        max-width: 100%;
+        min-width: auto;
+    }
+
+    .about-text h2 {
+        font-size: 32px;
+    }
+
+    .about-text p {
+        font-size: 16px;
+    }
+
+    .about-list {
+        display: inline-block;
+        text-align: left;
+        margin: 20px auto 0;
+    }
+
+    /* Contact Section */
+    .contact-container {
+        flex-direction: column;
+        padding: 30px;
+        gap: 30px;
+    }
+
+    .contact-info {
+        text-align: center;
+    }
+
+    .info-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .contact-form .input-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 12px 5%;
+    }
+
+    section {
+        padding: 80px 5% 50px;
+    }
+
+    .hero-text h1 {
+        font-size: 34px;
+    }
+
+    .section-title h2 {
+        font-size: 30px;
+    }
+
+    .loan-card {
+        padding: 25px 20px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-col ul a:hover {
+        padding-left: 0;
+    }
+}
+
