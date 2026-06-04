@@ -104,16 +104,19 @@
         
         <div class="contact-form">
             <div class="input-row">
-                <input type="text" placeholder="First Name">
-                <input type="text" placeholder="Last Name">
+                <input type="text" id="contact-fname" placeholder="First Name" required>
+                <input type="text" id="contact-lname" placeholder="Last Name" required>
             </div>
             <div class="input-row">
-                <input type="email" placeholder="Email Address">
-                <input type="text" placeholder="Phone Number">
+                <input type="email" id="contact-email" placeholder="Email Address" required>
+                <input type="text" id="contact-phone" placeholder="Phone Number">
             </div>
-            <input type="text" placeholder="Subject" style="width: 100%; margin-bottom: 20px; padding: 16px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.02); color: white;">
-            <textarea placeholder="How can we help you?"></textarea>
-            <button class="calculate-btn">Send Message</button>
+            <input type="text" id="contact-subject" placeholder="Subject" style="width: 100%; margin-bottom: 20px; padding: 16px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.02); color: white;" required>
+            <textarea id="contact-message" placeholder="How can we help you?" required></textarea>
+            
+            <div id="contact-alert" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: 500;"></div>
+            
+            <button class="calculate-btn" onclick="handleContactFormSubmit()">Send Message</button>
         </div>
     </div>
 </section>
@@ -150,5 +153,58 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+    async function handleContactFormSubmit() {
+        const fname = document.getElementById('contact-fname').value.trim();
+        const lname = document.getElementById('contact-lname').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const phone = document.getElementById('contact-phone').value.trim();
+        const subject = document.getElementById('contact-subject').value.trim();
+        const message = document.getElementById('contact-message').value.trim();
+        const alert = document.getElementById('contact-alert');
+
+        if (!fname || !lname || !email || !subject || !message) {
+            alert.style.display = 'block';
+            alert.textContent = '⚠️ Please fill out all required fields.';
+            alert.style.background = 'rgba(239, 68, 68, 0.1)';
+            alert.style.color = '#ef4444';
+            alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+            return;
+        }
+
+        try {
+            const name = `${fname} ${lname}`;
+            const result = await submitContactMessage({ name, email, phone, subject, message });
+            if (result.success) {
+                alert.style.display = 'block';
+                alert.textContent = '✓ Message sent successfully! We will get back to you shortly.';
+                alert.style.background = 'rgba(16, 185, 129, 0.1)';
+                alert.style.color = '#10b981';
+                alert.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+
+                // Clear fields
+                document.getElementById('contact-fname').value = '';
+                document.getElementById('contact-lname').value = '';
+                document.getElementById('contact-email').value = '';
+                document.getElementById('contact-phone').value = '';
+                document.getElementById('contact-subject').value = '';
+                document.getElementById('contact-message').value = '';
+            } else {
+                alert.style.display = 'block';
+                alert.textContent = result.message || 'Failed to send message. Please try again.';
+                alert.style.background = 'rgba(239, 68, 68, 0.1)';
+                alert.style.color = '#ef4444';
+                alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+            }
+        } catch(e) {
+            console.error(e);
+            alert.style.display = 'block';
+            alert.textContent = 'An unexpected error occurred.';
+            alert.style.background = 'rgba(239, 68, 68, 0.1)';
+            alert.style.color = '#ef4444';
+            alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+        }
+    }
+</script>
 </body>
 </html>

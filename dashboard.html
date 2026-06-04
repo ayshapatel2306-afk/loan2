@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FinFlow User Dashboard. Manage your loan applications, calculate EMIs, and view application status.">
+    <title>FinFlow Loan Services - User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- HEADER (Navigation) -->
+    <header style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">Fin<span>Flow</span></div>
+        <nav id="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="about.html">About</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebarMenu()"></div>
+        <aside class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <a class="sidebar-link active" id="link-overview" onclick="switchTab('overview')">
+                        <span>📊</span> Overview
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link" id="link-apply" onclick="switchTab('apply')">
+                        <span>💰</span> Apply For Loan
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link" id="link-profile" onclick="switchTab('profile')">
+                        <span>👤</span> Profile Settings
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link" onclick="handleLogout()" style="color: #ef4444;">
+                        <span>🚪</span> Log Out
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-user">
+                <div class="sidebar-user-name" id="sidebar-user-fullname">John Doe</div>
+                <div class="sidebar-user-role" id="sidebar-user-username">@johndoe</div>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            
+            <!-- OVERVIEW TAB -->
+            <section class="db-tab-section active" id="sec-overview" style="padding: 0;">
+                <div class="db-title-bar">
+                    <div>
+                        <h2 id="welcome-message">Hello, User</h2>
+                        <p>Track your loan requests and see their approval status in real-time.</p>
+                    </div>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Applied</div>
+                        <div class="metric-value" id="val-total-applied">₹0.00</div>
+                        <div class="metric-sub" id="sub-total-applied">Across 0 requests</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Approved Balance</div>
+                        <div class="metric-value" id="val-approved-applied" style="color: #10b981;">₹0.00</div>
+                        <div class="metric-sub" style="color: #10b981;">Approved and active</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Pending Requests</div>
+                        <div class="metric-value" id="val-pending-applied" style="color: #f59e0b;">0</div>
+                        <div class="metric-sub" style="color: #f59e0b;">Awaiting review</div>
+                    </div>
+                </div>
+
+                <!-- Loan History Panel -->
+                <div class="db-panel">
+                    <div class="db-panel-header">
+                        <h3>My Loan Applications</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Loan ID</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Tenure</th>
+                                    <th>Interest</th>
+                                    <th>Monthly EMI</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loans-table-body">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">No loan applications submitted yet.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APPLY TAB -->
+            <section class="db-tab-section" id="sec-apply" style="padding: 0;">
+                <div class="db-title-bar">
+                    <div>
+                        <h2>Apply For Loan</h2>
+                        <p>Calculate your loan details and submit your application immediately.</p>
+                    </div>
+                </div>
+
+                <div class="db-dashboard-grid">
+                    <!-- Calculator Card -->
+                    <div class="db-panel" style="margin-bottom: 0;">
+                        <h3 style="margin-bottom: 20px; font-size: 20px;">Loan Calculator</h3>
+                        
+                        <!-- Alert Notification Display -->
+                        <div id="apply-alert" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: 500;"></div>
+
+                        <form id="apply-loan-form" onsubmit="handleApplySubmit(event)">
+                            <div class="form-group">
+                                <label for="apply-name">Applicant Name</label>
+                                <input type="text" id="apply-name" placeholder="Full name of applicant" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="apply-amount">Requested Amount (₹)</label>
+                                <input type="number" id="apply-amount" placeholder="e.g. 500000" min="1000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apply-interest">Annual Interest Rate (%)</label>
+                                <input type="number" id="apply-interest" placeholder="e.g. 8.5" step="0.01" min="1" max="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apply-years">Loan Tenure (Years)</label>
+                                <input type="number" id="apply-years" placeholder="e.g. 5" min="1" max="30" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apply-loanType">Loan Category</label>
+                                <select id="apply-loanType">
+                                    <option value="Personal Loan">Personal Loan</option>
+                                    <option value="Business Loan">Business Loan</option>
+                                    <option value="Home Loan">Home Loan</option>
+                                    <option value="Education Loan">Education Loan</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="apply-now-btn" style="border: none; cursor: pointer;">Submit Application</button>
+                        </form>
+                    </div>
+
+                    <!-- EMI Overview Details -->
+                    <div class="db-panel" style="margin-bottom: 0; display: flex; flex-direction: column; justify-content: center;">
+                        <h3 style="margin-bottom: 20px; font-size: 20px; text-align: center;">EMI Details</h3>
+                        <div id="apply-calc-result" style="text-align: center; color: var(--text-muted); font-size: 15px; line-height: 1.6;">
+                            Enter details and submit your application to compute the EMI automatically.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROFILE TAB -->
+            <section class="db-tab-section" id="sec-profile" style="padding: 0;">
+                <div class="db-title-bar">
+                    <div>
+                        <h2>Profile Settings</h2>
+                        <p>Manage your account details and security settings.</p>
+                    </div>
+                </div>
+
+                <div class="db-panel" style="max-width: 600px;">
+                    <h3 style="margin-bottom: 20px; font-size: 20px;">Account Details</h3>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="profile-name" readonly style="background: rgba(255,255,255,0.02); color: var(--text-muted);">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="text" id="profile-email" readonly style="background: rgba(255,255,255,0.02); color: var(--text-muted);">
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="profile-username" readonly style="background: rgba(255,255,255,0.02); color: var(--text-muted);">
+                    </div>
+                    <div class="form-group">
+                        <label>Account Role</label>
+                        <input type="text" value="User Account" readonly style="background: rgba(255,255,255,0.02); color: var(--primary); font-weight: 700; border-color: rgba(0, 212, 255, 0.1);">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script src="script.js"></script>
+    <script>
+        let userLoans = [];
+
+        // Check authentication
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            if (user.role === 'admin') {
+                window.location.href = 'admin.html';
+                return;
+            }
+
+            // Populates profile details
+            document.getElementById('sidebar-user-fullname').textContent = user.name;
+            document.getElementById('sidebar-user-username').textContent = '@' + user.username;
+            document.getElementById('welcome-message').textContent = `Hello, ${user.name.split(' ')[0]}`;
+            
+            document.getElementById('profile-name').value = user.name;
+            document.getElementById('profile-email').value = user.email || 'N/A';
+            document.getElementById('profile-username').value = user.username;
+            document.getElementById('apply-name').value = user.name;
+
+            // Load applications
+            await loadUserDashboardData();
+
+            // Check if user came from index.html with a pending loan apply request
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('apply') === 'true' || localStorage.getItem('pending_loan_app')) {
+                const pending = localStorage.getItem('pending_loan_app');
+                if (pending) {
+                    try {
+                        const loan = JSON.parse(pending);
+                        document.getElementById('apply-amount').value = loan.amount;
+                        document.getElementById('apply-interest').value = loan.interest;
+                        document.getElementById('apply-years').value = loan.years;
+                        document.getElementById('apply-loanType').value = loan.loanType;
+                        
+                        switchTab('apply');
+                        calculateAndDisplayEMI(loan.amount, loan.interest, loan.years, loan.loanType);
+                        
+                        // Show success alert to submit
+                        showApplyAlert('We loaded your calculator details. Click "Submit Application" below to finalize.', 'success');
+                    } catch(e) {
+                        console.error('Failed to load pending application', e);
+                    }
+                }
+            }
+        });
+
+        async function loadUserDashboardData() {
+            try {
+                const response = await fetchUserLoans();
+                if (response.success) {
+                    userLoans = response.loans;
+                    renderLoansTable(userLoans);
+                    calculateUserMetrics(userLoans);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderLoansTable(loans) {
+            const tableBody = document.getElementById('loans-table-body');
+            if (loans.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">No loan applications submitted yet.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = loans.map(loan => {
+                const emi = calculateMonthlyEMI(loan.amount, loan.interest, loan.years);
+                let statusBadgeClass = 'badge-pending';
+                if (loan.status === 'Approved') statusBadgeClass = 'badge-approved';
+                else if (loan.status === 'Rejected') statusBadgeClass = 'badge-rejected';
+
+                return `
+                    <tr>
+                        <td style="font-weight:600; color:#fff;">#FF-${loan.id.toString().substring(0, 6)}</td>
+                        <td>${loan.loanType}</td>
+                        <td>₹${parseFloat(loan.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                        <td>${loan.years} Years</td>
+                        <td>${loan.interest}%</td>
+                        <td style="font-weight:600; color:var(--primary);">₹${emi.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                        <td><span class="badge ${statusBadgeClass}">${loan.status}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function calculateUserMetrics(loans) {
+            let totalAmount = 0;
+            let approvedAmount = 0;
+            let pendingCount = 0;
+
+            loans.forEach(loan => {
+                const amount = parseFloat(loan.amount);
+                totalAmount += amount;
+                if (loan.status === 'Approved') {
+                    approvedAmount += amount;
+                } else if (loan.status === 'Pending') {
+                    pendingCount++;
+                }
+            });
+
+            document.getElementById('val-total-applied').textContent = `₹${totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+            document.getElementById('sub-total-applied').textContent = `Across ${loans.length} request(s)`;
+            
+            document.getElementById('val-approved-applied').textContent = `₹${approvedAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+            
+            document.getElementById('val-pending-applied').textContent = pendingCount;
+        }
+
+        function switchTab(tabName) {
+            // Remove active classes
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.db-tab-section').forEach(sec => sec.classList.remove('active'));
+
+            // Add active classes
+            document.getElementById(`link-${tabName}`).classList.add('active');
+            document.getElementById(`sec-${secNameMap(tabName)}`).classList.add('active');
+            
+            // Close mobile sidebar if open
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
+        
+        function secNameMap(name) {
+            return name; // matches ID suffixes
+        }
+
+        function showApplyAlert(msg, type = 'error') {
+            const alert = document.getElementById('apply-alert');
+            alert.style.display = 'block';
+            alert.textContent = msg;
+            if (type === 'success') {
+                alert.style.background = 'rgba(16, 185, 129, 0.1)';
+                alert.style.color = '#10b981';
+                alert.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+            } else {
+                alert.style.background = 'rgba(239, 68, 68, 0.1)';
+                alert.style.color = '#ef4444';
+                alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+            }
+        }
+
+        function calculateMonthlyEMI(amount, interest, years) {
+            let monthlyInterest = interest / 100 / 12;
+            let months = years * 12;
+            return (amount * monthlyInterest * Math.pow(1 + monthlyInterest, months)) / (Math.pow(1 + monthlyInterest, months) - 1);
+        }
+
+        function calculateAndDisplayEMI(amount, interest, years, loanType) {
+            const emi = calculateMonthlyEMI(amount, interest, years);
+            const totalPayment = emi * years * 12;
+            const totalInterest = totalPayment - amount;
+
+            document.getElementById('apply-calc-result').innerHTML = `
+                <div style="font-size: 18px; font-weight:600; color: #fff; margin-bottom: 15px;">Monthly EMI Estimate</div>
+                <div style="font-size: 32px; font-weight:800; color: var(--primary); margin-bottom: 20px;">₹${emi.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px;">
+                    <span>Loan Category:</span>
+                    <strong style="color:#fff;">${loanType}</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px;">
+                    <span>Total Interest:</span>
+                    <strong style="color:#fff;">₹${totalInterest.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:14px;">
+                    <span>Total Cost:</span>
+                    <strong style="color:#fff;">₹${totalPayment.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+                </div>
+            `;
+        }
+
+        // Auto calculator on inputs
+        const watchInputs = ['apply-amount', 'apply-interest', 'apply-years', 'apply-loanType'];
+        watchInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                const amount = parseFloat(document.getElementById('apply-amount').value);
+                const interest = parseFloat(document.getElementById('apply-interest').value);
+                const years = parseFloat(document.getElementById('apply-years').value);
+                const loanType = document.getElementById('apply-loanType').value;
+
+                if (!isNaN(amount) && !isNaN(interest) && !isNaN(years) && amount > 0 && interest > 0 && years > 0) {
+                    calculateAndDisplayEMI(amount, interest, years, loanType);
+                } else {
+                    document.getElementById('apply-calc-result').innerHTML = `
+                        Enter details and submit your application to compute the EMI automatically.
+                    `;
+                }
+            });
+        });
+
+        async function handleApplySubmit(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('apply-amount').value);
+            const interest = parseFloat(document.getElementById('apply-interest').value);
+            const years = parseFloat(document.getElementById('apply-years').value);
+            const loanType = document.getElementById('apply-loanType').value;
+
+            if (isNaN(amount) || isNaN(interest) || isNaN(years) || amount <= 0 || interest <= 0 || years <= 0) {
+                showApplyAlert('Please enter valid numeric values for all calculation fields.');
+                return;
+            }
+
+            try {
+                const result = await submitLoanApplication({ amount, interest, years, loanType });
+                if (result.success) {
+                    showApplyAlert('Loan application submitted successfully!', 'success');
+                    
+                    // Clear pending application
+                    localStorage.removeItem('pending_loan_app');
+                    
+                    // Clear input form
+                    document.getElementById('apply-amount').value = '';
+                    document.getElementById('apply-interest').value = '';
+                    document.getElementById('apply-years').value = '';
+                    document.getElementById('apply-calc-result').innerHTML = `
+                        Enter details and submit your application to compute the EMI automatically.
+                    `;
+                    
+                    // Update dashboard data
+                    await loadUserDashboardData();
+                    
+                    // Switch back to overview tab after small delay
+                    setTimeout(() => {
+                        switchTab('overview');
+                        document.getElementById('apply-alert').style.display = 'none';
+                    }, 1500);
+                } else {
+                    showApplyAlert(result.message || 'Submission failed.');
+                }
+            } catch (err) {
+                showApplyAlert('An error occurred submitting the application.');
+                console.error(err);
+            }
+        }
+        
+        function toggleSidebarMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        // Listen for mobile header menu toggle click
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            if (menuToggle) {
+                // Remove default header menu-toggle function and attach custom dashboard sidebar reveal
+                menuToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebarMenu();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

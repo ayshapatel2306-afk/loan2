@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FinFlow Administrative Dashboard. Review loan applications, approve or deny requests, and manage inquiries.">
+    <title>FinFlow Loan Services - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- HEADER (Navigation) -->
+    <header style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">Fin<span>Flow</span></div>
+        <nav id="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="about.html">About</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebarMenu()"></div>
+        <aside class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li>
+                    <a class="sidebar-link active" id="link-loans" onclick="switchTab('loans')">
+                        <span>💰</span> Applications
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link" id="link-messages" onclick="switchTab('messages')">
+                        <span>✉️</span> Inquiries
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link" onclick="handleLogout()" style="color: #ef4444;">
+                        <span>🚪</span> Log Out
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-user">
+                <div class="sidebar-user-name" id="sidebar-user-fullname">Admin Manager</div>
+                <div class="sidebar-user-role">System Admin</div>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            
+            <!-- LOANS TAB -->
+            <section class="db-tab-section active" id="sec-loans" style="padding: 0;">
+                <div class="db-title-bar">
+                    <div>
+                        <h2>Loan Applications Manager</h2>
+                        <p>Review, approve, and reject user loan applications submitted online.</p>
+                    </div>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Outstanding Requests</div>
+                        <div class="metric-value" id="val-admin-total-applied">₹0.00</div>
+                        <div class="metric-sub" id="sub-admin-total-applied">Across 0 total applications</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Approved Loans</div>
+                        <div class="metric-value" id="val-admin-approved-applied" style="color: #10b981;">₹0.00</div>
+                        <div class="metric-sub" id="sub-admin-approved-applied" style="color: #10b981;">0 approved</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Pending Reviews</div>
+                        <div class="metric-value" id="val-admin-pending-applied" style="color: #f59e0b;">0</div>
+                        <div class="metric-sub" style="color: #f59e0b;">Awaiting action</div>
+                    </div>
+                </div>
+
+                <!-- Applications Panel -->
+                <div class="db-panel">
+                    <div class="db-panel-header">
+                        <h3>All Loan Applications</h3>
+                    </div>
+                    
+                    <div id="loans-alert" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: 500;"></div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Applicant</th>
+                                    <th>Loan ID</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Tenure</th>
+                                    <th>Interest</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-loans-table-body">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">No applications found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MESSAGES TAB -->
+            <section class="db-tab-section" id="sec-messages" style="padding: 0;">
+                <div class="db-title-bar">
+                    <div>
+                        <h2>Customer Inquiries</h2>
+                        <p>View contact forms and queries submitted by visitors.</p>
+                    </div>
+                </div>
+
+                <div class="db-panel">
+                    <div class="db-panel-header">
+                        <h3>Inbox messages</h3>
+                    </div>
+
+                    <div id="messages-alert" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: 500;"></div>
+
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sender</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-messages-table-body">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 30px; color: var(--text-muted);">No inbox messages.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script src="script.js"></script>
+    <script>
+        let allLoans = [];
+        let allMessages = [];
+
+        // Check authentication
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            if (user.role !== 'admin') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            document.getElementById('sidebar-user-fullname').textContent = user.name;
+            
+            // Fetch and render data
+            await loadAdminData();
+        });
+
+        async function loadAdminData() {
+            try {
+                // Fetch loans
+                const loansResponse = await fetchAdminLoans();
+                if (loansResponse.success) {
+                    allLoans = loansResponse.loans;
+                    renderLoansTable(allLoans);
+                    calculateAdminMetrics(allLoans);
+                }
+
+                // Fetch messages
+                const msgResponse = await fetchContactMessages();
+                if (msgResponse.success) {
+                    allMessages = msgResponse.messages;
+                    renderMessagesTable(allMessages);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function renderLoansTable(loans) {
+            const tableBody = document.getElementById('admin-loans-table-body');
+            if (loans.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">No applications found.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = loans.map(loan => {
+                let statusBadgeClass = 'badge-pending';
+                if (loan.status === 'Approved') statusBadgeClass = 'badge-approved';
+                else if (loan.status === 'Rejected') statusBadgeClass = 'badge-rejected';
+
+                let actionButtons = '';
+                if (loan.status === 'Pending') {
+                    actionButtons = `
+                        <div class="action-btn-group">
+                            <button class="action-btn btn-approve" onclick="handleLoanStatusChange(${loan.id}, 'Approved')">Approve</button>
+                            <button class="action-btn btn-reject" onclick="handleLoanStatusChange(${loan.id}, 'Rejected')">Reject</button>
+                        </div>
+                    `;
+                } else {
+                    actionButtons = `
+                        <button class="action-btn btn-delete" onclick="handleLoanDelete(${loan.id})">Delete</button>
+                    `;
+                }
+
+                return `
+                    <tr>
+                        <td style="font-weight:600; color:#fff;">${loan.applicantName || 'Guest User'}</td>
+                        <td style="font-family: monospace;">#FF-${loan.id.toString().substring(0, 6)}</td>
+                        <td>${loan.loanType}</td>
+                        <td style="font-weight:600; color:#fff;">₹${parseFloat(loan.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                        <td>${loan.years} Years</td>
+                        <td>${loan.interest}%</td>
+                        <td><span class="badge ${statusBadgeClass}">${loan.status}</span></td>
+                        <td>${actionButtons}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderMessagesTable(messages) {
+            const tableBody = document.getElementById('admin-messages-table-body');
+            if (messages.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 30px; color: var(--text-muted);">No inbox messages.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = messages.map(msg => {
+                return `
+                    <tr>
+                        <td style="font-weight:600; color:#fff;">${msg.name}</td>
+                        <td><a href="mailto:${msg.email}" style="color:var(--primary); text-decoration:none;">${msg.email}</a></td>
+                        <td style="color:#fff;">${msg.subject || 'No Subject'}</td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${msg.message}">${msg.message}</td>
+                        <td>
+                            <button class="action-btn btn-delete" onclick="handleMessageDelete(${msg.id})">Dismiss</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function calculateAdminMetrics(loans) {
+            let totalAmount = 0;
+            let approvedAmount = 0;
+            let approvedCount = 0;
+            let pendingCount = 0;
+
+            loans.forEach(loan => {
+                const amount = parseFloat(loan.amount);
+                totalAmount += amount;
+                if (loan.status === 'Approved') {
+                    approvedAmount += amount;
+                    approvedCount++;
+                } else if (loan.status === 'Pending') {
+                    pendingCount++;
+                }
+            });
+
+            document.getElementById('val-admin-total-applied').textContent = `₹${totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+            document.getElementById('sub-admin-total-applied').textContent = `Across ${loans.length} total request(s)`;
+            
+            document.getElementById('val-admin-approved-applied').textContent = `₹${approvedAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+            document.getElementById('sub-admin-approved-applied').textContent = `${approvedCount} approved request(s)`;
+            
+            document.getElementById('val-admin-pending-applied').textContent = pendingCount;
+        }
+
+        async function handleLoanStatusChange(loanId, status) {
+            try {
+                const result = await updateLoanStatus(loanId, status);
+                if (result.success) {
+                    showLoansAlert(`Loan #${loanId.toString().substring(0, 6)} updated to ${status}.`, 'success');
+                    await loadAdminData();
+                } else {
+                    showLoansAlert(result.message || 'Failed to update loan status.');
+                }
+            } catch (err) {
+                console.error(err);
+                showLoansAlert('An error occurred during updating status.');
+            }
+        }
+
+        async function handleLoanDelete(loanId) {
+            if (!confirm('Are you sure you want to delete this loan application entry?')) return;
+            try {
+                const result = await deleteLoanApplication(loanId);
+                if (result.success) {
+                    showLoansAlert('Application record deleted.', 'success');
+                    await loadAdminData();
+                } else {
+                    showLoansAlert(result.message || 'Failed to delete record.');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function handleMessageDelete(msgId) {
+            try {
+                const result = await deleteContactMessage(msgId);
+                if (result.success) {
+                    showMessagesAlert('Inquiry message dismissed.', 'success');
+                    await loadAdminData();
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function showLoansAlert(msg, type = 'error') {
+            const alert = document.getElementById('loans-alert');
+            alert.style.display = 'block';
+            alert.textContent = msg;
+            if (type === 'success') {
+                alert.style.background = 'rgba(16, 185, 129, 0.1)';
+                alert.style.color = '#10b981';
+                alert.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+            } else {
+                alert.style.background = 'rgba(239, 68, 68, 0.1)';
+                alert.style.color = '#ef4444';
+                alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+            }
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        function showMessagesAlert(msg, type = 'error') {
+            const alert = document.getElementById('messages-alert');
+            alert.style.display = 'block';
+            alert.textContent = msg;
+            if (type === 'success') {
+                alert.style.background = 'rgba(16, 185, 129, 0.1)';
+                alert.style.color = '#10b981';
+                alert.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+            } else {
+                alert.style.background = 'rgba(239, 68, 68, 0.1)';
+                alert.style.color = '#ef4444';
+                alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+            }
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.db-tab-section').forEach(sec => sec.classList.remove('active'));
+
+            document.getElementById(`link-${tabName}`).classList.add('active');
+            document.getElementById(`sec-${tabName}`).classList.add('active');
+            
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        }
+        
+        function toggleSidebarMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        // Listen for mobile header menu toggle click
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebarMenu();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

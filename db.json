@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "username": "user",
+      "password": "password",
+      "name": "Demo Client",
+      "email": "client@finflow.com",
+      "role": "user"
+    },
+    {
+      "username": "admin",
+      "password": "password",
+      "name": "Administrator",
+      "email": "admin@finflow.com",
+      "role": "admin"
+    },
+    {
+      "username": "vijay",
+      "password": "123456",
+      "name": "vijay",
+      "email": "vijay@gmail.com",
+      "role": "user"
+    }
+  ],
+  "loans": [],
+  "messages": []
+}

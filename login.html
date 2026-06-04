@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FinFlow - Secure Login. Access your user dashboard or administrative portal.">
+    <title>FinFlow Loan Services - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-body">
+
+    <!-- HEADER (Navigation) -->
+    <header style="position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">Fin<span>Flow</span></div>
+        <nav id="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="about.html">About</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="contact.html">Contact</a>
+            <!-- Dynamic links will be injected here by script.js -->
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- AUTH CARD CONTAINER -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2 id="auth-title">Welcome Back</h2>
+                <p id="auth-subtitle">Sign in to your FinFlow account to manage loans.</p>
+            </div>
+
+            <!-- Tab Selectors -->
+            <div class="auth-tabs" id="auth-mode-tabs">
+                <button class="auth-tab active" onclick="setAuthMode('login')">Login</button>
+                <button class="auth-tab" onclick="setAuthMode('register')">Register</button>
+            </div>
+
+            <div class="auth-tabs" id="auth-role-tabs">
+                <button class="auth-tab active" id="tab-user" onclick="setAuthRole('user')">User Access</button>
+                <button class="auth-tab" id="tab-admin" onclick="setAuthRole('admin')">Admin Portal</button>
+            </div>
+
+            <!-- Alert Notification Display -->
+            <div id="auth-alert" style="display: none; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: 500;"></div>
+
+            <!-- Forms -->
+            <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+                <!-- Registration Fields (hidden by default) -->
+                <div class="form-group" id="group-name" style="display: none;">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group" id="group-email" style="display: none;">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@example.com">
+                </div>
+
+                <!-- Shared Fields -->
+                <div class="form-group">
+                    <label for="username" id="label-username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="apply-now-btn" id="submit-btn" style="border: none; cursor: pointer; margin-top: 10px;">Sign In</button>
+            </form>
+
+            <div class="auth-footer" id="auth-toggle-footer">
+                Don't have an account? <a href="#" onclick="event.preventDefault(); setAuthMode('register')">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT -->
+    <script src="script.js"></script>
+    <script>
+        let currentMode = 'login'; // 'login' or 'register'
+        let currentRole = 'user';  // 'user' or 'admin'
+
+        function setAuthMode(mode) {
+            currentMode = mode;
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            const submitBtn = document.getElementById('submit-btn');
+            const footer = document.getElementById('auth-toggle-footer');
+            const roleTabs = document.getElementById('auth-role-tabs');
+            
+            const modeTabs = document.getElementById('auth-mode-tabs').children;
+            if (mode === 'login') {
+                modeTabs[0].classList.add('active');
+                modeTabs[1].classList.remove('active');
+                
+                title.textContent = currentRole === 'user' ? 'Welcome Back' : 'Admin Portal';
+                subtitle.textContent = currentRole === 'user' ? 'Sign in to your FinFlow account to manage loans.' : 'Secure entry for system administrators.';
+                submitBtn.textContent = 'Sign In';
+                footer.style.display = 'block';
+                roleTabs.style.display = 'flex';
+                
+                document.getElementById('group-name').style.display = 'none';
+                document.getElementById('group-email').style.display = 'none';
+                document.getElementById('name').removeAttribute('required');
+                document.getElementById('email').removeAttribute('required');
+            } else {
+                modeTabs[0].classList.remove('active');
+                modeTabs[1].classList.add('active');
+                
+                title.textContent = 'Create Account';
+                subtitle.textContent = 'Register today to apply for instant loans and track applications.';
+                submitBtn.textContent = 'Create Account';
+                footer.style.display = 'none';
+                
+                // Registration is only for users
+                setAuthRole('user');
+                roleTabs.style.display = 'none';
+                
+                document.getElementById('group-name').style.display = 'block';
+                document.getElementById('group-email').style.display = 'block';
+                document.getElementById('name').setAttribute('required', 'true');
+                document.getElementById('email').setAttribute('required', 'true');
+            }
+            hideAlert();
+        }
+
+        function setAuthRole(role) {
+            if (currentMode === 'register') return; // registration only for users
+            currentRole = role;
+            
+            const title = document.getElementById('auth-title');
+            const subtitle = document.getElementById('auth-subtitle');
+            
+            document.getElementById('tab-user').classList.toggle('active', role === 'user');
+            document.getElementById('tab-admin').classList.toggle('active', role === 'admin');
+            
+            title.textContent = role === 'user' ? 'Welcome Back' : 'Admin Portal';
+            subtitle.textContent = role === 'user' ? 'Sign in to your FinFlow account to manage loans.' : 'Secure entry for system administrators.';
+            hideAlert();
+        }
+
+        function showAlert(msg, type = 'error') {
+            const alert = document.getElementById('auth-alert');
+            alert.style.display = 'block';
+            alert.textContent = msg;
+            
+            if (type === 'success') {
+                alert.style.background = 'rgba(16, 185, 129, 0.1)';
+                alert.style.color = '#10b981';
+                alert.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+            } else {
+                alert.style.background = 'rgba(239, 68, 68, 0.1)';
+                alert.style.color = '#ef4444';
+                alert.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+            }
+        }
+
+        function hideAlert() {
+            document.getElementById('auth-alert').style.display = 'none';
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            hideAlert();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            try {
+                if (currentMode === 'register') {
+                    // Call register API
+                    const result = await authRegister({ username, password, name, email, role: 'user' });
+                    if (result.success) {
+                        showAlert('Registration successful! Redirecting...', 'success');
+                        setTimeout(() => {
+                            setAuthMode('login');
+                        }, 1500);
+                    } else {
+                        showAlert(result.message || 'Registration failed.');
+                    }
+                } else {
+                    // Call login API
+                    const result = await authLogin({ username, password, role: currentRole });
+                    if (result.success) {
+                        showAlert('Login successful! Redirecting...', 'success');
+                        setTimeout(() => {
+                            if (result.user.role === 'admin') {
+                                window.location.href = 'admin.html';
+                            } else {
+                                // If there was a pending loan calculation redirect back to index/dashboard
+                                const pendingApplication = localStorage.getItem('pending_loan_app');
+                                if (pendingApplication) {
+                                    window.location.href = 'dashboard.html?apply=true';
+                                } else {
+                                    window.location.href = 'dashboard.html';
+                                }
+                            }
+                        }, 1200);
+                    } else {
+                        showAlert(result.message || 'Incorrect username or password.');
+                    }
+                }
+            } catch (err) {
+                showAlert('An unexpected error occurred. Please try again.');
+                console.error(err);
+            }
+        }
+        
+        // Block guest access if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            if (user) {
+                if (user.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
