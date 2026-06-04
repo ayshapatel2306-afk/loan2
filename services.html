@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Our Services - FinFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff69b4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    console.log('SW registered!', reg);
+                }).catch(err => console.log('SW failed', err));
+            });
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <div class="logo">Fin<span>Flow</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="services.html" class="active">Services</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="about.html">About</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<!-- SERVICES -->
+<section id="services">
+    <div class="section-title">
+        <h2>Our <span>Services</span></h2>
+        <p>We provide flexible and reliable loan programs designed to meet your every financial requirement with absolute transparency.</p>
+    </div>
+    <div class="services">
+        <div class="service-card">
+            <div class="service-icon">👤</div>
+            <h3>Personal Loan</h3>
+            <p>Access instant funds for medical emergencies, travel, or weddings with minimal documentation and swift disbursal.</p>
+            <div class="sub-options">
+                <a href="contact.html?type=medical" class="sub-option">Medical</a>
+                <a href="contact.html?type=wedding" class="sub-option">Wedding</a>
+                <a href="contact.html?type=travel" class="sub-option">Travel</a>
+                <a href="contact.html?type=renovation" class="sub-option">Renovation</a>
+                <a href="contact.html?type=debt" class="sub-option">Debt Consolidation</a>
+                <a href="contact.html?type=emergency" class="sub-option">Emergency</a>
+                <a href="contact.html?type=other_personal" class="sub-option" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;">+ More Options</a>
+            </div>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">🏠</div>
+            <h3>Home Loan</h3>
+            <p>Build your dream home with our affordable housing finance options, featuring lowest EMI schemes and long tenures.</p>
+            <div class="sub-options">
+                <a href="contact.html?type=new_home" class="sub-option">New Home</a>
+                <a href="contact.html?type=construction" class="sub-option">Construction</a>
+                <a href="contact.html?type=extension" class="sub-option">Extension</a>
+                <a href="contact.html?type=home_renovation" class="sub-option">Renovation</a>
+                <a href="contact.html?type=plot" class="sub-option">Plot Loan</a>
+                <a href="contact.html?type=other_home" class="sub-option" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;">+ More Options</a>
+            </div>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">💼</div>
+            <h3>Business Loan</h3>
+            <p>Expand your enterprise with secure funding support. Perfect for working capital, equipment, or business expansion.</p>
+            <div class="sub-options">
+                <a href="contact.html?type=working_capital" class="sub-option">Working Capital</a>
+                <a href="contact.html?type=equipment" class="sub-option">Equipment</a>
+                <a href="contact.html?type=startup" class="sub-option">Startup</a>
+                <a href="contact.html?type=expansion" class="sub-option">Expansion</a>
+                <a href="contact.html?type=franchise" class="sub-option">Franchise</a>
+                <a href="contact.html?type=other_business" class="sub-option" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;">+ More Options</a>
+            </div>
+        </div>
+        <div class="service-card">
+            <div class="service-icon">🎓</div>
+            <h3>Education Loan</h3>
+            <p>Empower your future with student-friendly financing for top universities worldwide. Low interest during study periods.</p>
+            <div class="sub-options">
+                <a href="contact.html?type=undergraduate" class="sub-option">Undergraduate</a>
+                <a href="contact.html?type=postgraduate" class="sub-option">Postgraduate</a>
+                <a href="contact.html?type=study_abroad" class="sub-option">Study Abroad</a>
+                <a href="contact.html?type=certification" class="sub-option">Certification</a>
+                <a href="contact.html?type=skill_development" class="sub-option">Skill Development</a>
+                <a href="contact.html?type=other_education" class="sub-option" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;">+ More Options</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-col">
+            <h3>Fin<span>Flow</span></h3>
+            <p>Empowering individuals and businesses with accessible, transparent, and swift financial solutions tailored for modern needs.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Our Services</a></li>
+                <li><a href="contact.html">FAQ & Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Security</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 FinFlow Loan Services. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

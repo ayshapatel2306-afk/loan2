@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>How It Works - FinFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff69b4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    console.log('SW registered!', reg);
+                }).catch(err => console.log('SW failed', err));
+            });
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <div class="logo">Fin<span>Flow</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="how-it-works.html" class="active">How It Works</a>
+        <a href="about.html">About</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+    <div class="section-title">
+        <h2>How It <span>Works</span></h2>
+        <p>Our streamlined process ensures you get the funds you need without any hassle. Three simple steps to financial freedom.</p>
+    </div>
+    <div class="how-it-works-grid">
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Apply Online</h3>
+            <p>Fill out our simple digital application form with your basic details and loan requirements in under 5 minutes.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Quick Verification</h3>
+            <p>Our automated systems and expert team verify your profile and documents instantly for rapid processing.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Instant Disbursal</h3>
+            <p>Once approved, the loan amount is transferred directly to your registered bank account within hours.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-col">
+            <h3>Fin<span>Flow</span></h3>
+            <p>Empowering individuals and businesses with accessible, transparent, and swift financial solutions tailored for modern needs.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Our Services</a></li>
+                <li><a href="contact.html">FAQ & Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Security</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 FinFlow Loan Services. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

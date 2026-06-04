@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FinFlow Personal Loan</title>
+
+<!-- GOOGLE FONT LINK -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- FONT AWESOME ICON LINK -->
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+/* ================= GLOBAL ================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),
+    url('https://images.unsplash.com/photo-1554224154-26032fced8bd?q=80&w=1600&auto=format&fit=crop')
+    no-repeat center center/cover;
+
+}
+
+/* ================= CARD ================= */
+
+.service-card{
+
+    width:100%;
+
+    max-width:950px;
+
+    background:
+    linear-gradient(135deg,#111827,#1f2937);
+
+    border-radius:30px;
+
+    padding:45px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,0.45);
+
+    border:1px solid rgba(255,255,255,0.1);
+
+    overflow:hidden;
+
+}
+
+/* ================= HEADER ================= */
+
+.top-section{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-bottom:30px;
+
+}
+
+.loan-title h1{
+
+    color:#00d4ff;
+
+    font-size:52px;
+
+    margin-bottom:10px;
+
+}
+
+.loan-title p{
+
+    color:#d1d5db;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+}
+
+.loan-badge{
+
+    background:#00d4ff;
+
+    color:black;
+
+    padding:14px 25px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    font-size:16px;
+
+}
+
+/* ================= MAIN OPTIONS ================= */
+
+.sub-options{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+    margin-top:20px;
+
+}
+
+/* ================= OPTION BOX ================= */
+
+.option-box{
+
+    background:rgba(255,255,255,0.07);
+
+    border-radius:22px;
+
+    padding:25px;
+
+    transition:0.4s;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    position:relative;
+
+}
+
+.option-box:hover{
+
+    transform:translateY(-8px);
+
+    background:rgba(255,255,255,0.12);
+
+}
+
+/* ICON */
+
+.option-box i{
+
+    color:#00d4ff;
+
+    font-size:34px;
+
+    margin-bottom:18px;
+
+}
+
+/* TITLE */
+
+.option-box h3{
+
+    color:white;
+
+    font-size:24px;
+
+    margin-bottom:12px;
+
+}
+
+/* TEXT */
+
+.option-box p{
+
+    color:#d1d5db;
+
+    line-height:1.8;
+
+    margin-bottom:20px;
+
+}
+
+/* ================= INNER FEATURES ================= */
+
+.inner-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.inner-box{
+
+    background:rgba(0,212,255,0.1);
+
+    border:1px solid rgba(0,212,255,0.2);
+
+    padding:12px 15px;
+
+    border-radius:12px;
+
+    color:white;
+
+    font-size:14px;
+
+    transition:0.3s;
+
+}
+
+.inner-box:hover{
+
+    background:rgba(0,212,255,0.2);
+
+}
+
+/* ================= BUTTON ================= */
+
+.action-btn{
+
+    width:100%;
+
+    margin-top:35px;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#00d4ff;
+
+    color:black;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+.action-btn:hover{
+
+    background:white;
+
+    transform:scale(1.02);
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.loan-title h1{
+
+    font-size:38px;
+
+}
+
+.service-card{
+
+    padding:30px;
+
+}
+
+}
+
+</style>
+
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff69b4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    console.log('SW registered!', reg);
+                }).catch(err => console.log('SW failed', err));
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+<!-- ================= PERSONAL LOAN CARD ================= -->
+
+<div class="service-card">
+
+    <!-- TOP -->
+
+    <div class="top-section">
+
+        <div class="loan-title">
+
+            <h1>Personal Loan</h1>
+
+            <p>
+
+                Instant personal loans with secure approval,
+                flexible EMI options, and low interest rates.
+
+            </p>
+
+        </div>
+
+        <div class="loan-badge">
+
+            Approval in 24 Hours
+
+        </div>
+
+    </div>
+
+    <!-- SUB OPTIONS -->
+
+    <div class="sub-options">
+
+        <!-- QUICK APPROVAL -->
+
+        <div class="option-box">
+
+            <i class="fa-solid fa-bolt"></i>
+
+            <h3>Quick Approval</h3>
+
+            <p>
+
+                Fast processing and secure verification
+                for urgent financial needs.
+
+            </p>
+
+            <div class="inner-options">
+
+                <div class="inner-box">
+                    ✔ Minimal Documents
+                </div>
+
+                <div class="inner-box">
+                    ✔ Instant Verification
+                </div>
+
+                <div class="inner-box">
+                    ✔ Fast Loan Updates
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- LOW INTEREST -->
+
+        <div class="option-box">
+
+            <i class="fa-solid fa-percent"></i>
+
+            <h3>Low Interest</h3>
+
+            <p>
+
+                Affordable interest rates designed
+                for every customer profile.
+
+            </p>
+
+            <div class="inner-options">
+
+                <div class="inner-box">
+                    ✔ EMI Starting Low
+                </div>
+
+                <div class="inner-box">
+                    ✔ No Hidden Charges
+                </div>
+
+                <div class="inner-box">
+                    ✔ Flexible Interest Plans
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FLEXIBLE EMI -->
+
+        <div class="option-box">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            <h3>Flexible EMI</h3>
+
+            <p>
+
+                Smart repayment options according
+                to your monthly budget.
+
+            </p>
+
+            <div class="inner-options">
+
+                <div class="inner-box">
+                    ✔ Custom EMI Duration
+                </div>
+
+                <div class="inner-box">
+                    ✔ Early Repayment
+                </div>
+
+                <div class="inner-box">
+                    ✔ Auto Debit Facility
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BUTTON -->
+
+    <button class="action-btn" onclick="personalLoanInfo()">
+
+        Apply Personal Loan
+
+    </button>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function personalLoanInfo(){
+
+    alert("Welcome to FinFlow Personal Loan Services!");
+
+}
+
+</script>
+
+</body>
+
+</html>s

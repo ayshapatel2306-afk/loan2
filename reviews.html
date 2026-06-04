@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Reviews - FinFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff69b4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    console.log('SW registered!', reg);
+                }).catch(err => console.log('SW failed', err));
+            });
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <div class="logo">Fin<span>Flow</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="about.html">About</a>
+        <a href="reviews.html" class="active">Reviews</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+    <div class="section-title">
+        <h2>Client <span>Reviews</span></h2>
+        <p>Don't just take our word for it. Hear what our satisfied customers have to say about their experience with FinFlow.</p>
+    </div>
+    <div class="testimonials">
+        <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p>The process was incredibly smooth. I needed a personal loan urgently for medical reasons, and the funds were in my account within 4 hours. Exceptional service!</p>
+            <div class="client-info">
+                <div class="avatar">AS</div>
+                <div>
+                    <h4>Arjun Sharma</h4>
+                    <span>Software Engineer</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p>FinFlow made my dream of expanding my business a reality. Their interest rates were lower than my primary bank, and the team was extremely supportive.</p>
+            <div class="client-info">
+                <div class="avatar">PM</div>
+                <div>
+                    <h4>Priya Mehta</h4>
+                    <span>Business Owner</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p>Got my education loan processed without any hassle. The transparency in their EMI calculations and no hidden fees gave me complete peace of mind.</p>
+            <div class="client-info">
+                <div class="avatar">RK</div>
+                <div>
+                    <h4>Rahul Kumar</h4>
+                    <span>Postgraduate Student</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-col">
+            <h3>Fin<span>Flow</span></h3>
+            <p>Empowering individuals and businesses with accessible, transparent, and swift financial solutions tailored for modern needs.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Our Services</a></li>
+                <li><a href="contact.html">FAQ & Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Security</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 FinFlow Loan Services. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
