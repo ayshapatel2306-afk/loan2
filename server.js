@@ -3,13 +3,25 @@ const fs = require('fs');
 const path = require('path');
 
 const server = http.createServer((req, res) => {
-    let filePath = '.' + req.url;
+    let parsedUrl = req.url.split('?')[0].split('#')[0];
+    let filePath = '.' + parsedUrl;
     if (filePath == './') {
         filePath = './index.html';
     }
 
     const extname = String(path.extname(filePath)).toLowerCase();
-    let contentType = 'text/html';
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.css': 'text/css',
+        '.js': 'text/javascript',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml',
+        '.ico': 'image/x-icon'
+    };
+    const contentType = mimeTypes[extname] || 'text/html';
     
     fs.readFile(filePath, (error, content) => {
         if (error) {
